@@ -47,7 +47,7 @@ jobs:
               run: "composer validate"
 
             - name: "Run PHPUnit unit tests"
-              run: "bin/phpunit --colors --testsuite=unit --do-not-cache-result"
+              run: "vendor/bin/phpunit --colors --testsuite=unit --do-not-cache-result"
 
             - name: "Run PHPUnit functional tests"
-              run: "bin/phpunit --colors --testsuite=functional --do-not-cache-result"
+              run: "vendor/bin/phpunit --colors --testsuite=functional --do-not-cache-result"
