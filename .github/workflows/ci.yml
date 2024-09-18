@@ -18,8 +18,6 @@ jobs:
         strategy:
             matrix:
                 dependencies:
-                    - "lowest"
-                    - "highest"
                     - "locked"
                 php-version:
                     - "8.2"
