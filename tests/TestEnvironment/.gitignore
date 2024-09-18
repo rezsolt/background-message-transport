@@ -4,7 +4,6 @@
 /config/preload.php
 /config/routes.yaml
 /config/routes
-/public
 /tests/bootstrap.php
 /compose.override.yaml
 /compose.yaml
