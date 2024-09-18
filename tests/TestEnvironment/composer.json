@@ -27,7 +27,7 @@
         "symfony/property-access": "6.4.*",
         "symfony/runtime": "6.4.*",
         "symfony/yaml": "6.4.*",
-        "rezsolt/background-message-transport": "dev-main"
+        "rezsolt/background-message-transport": "@dev"
     },
     "config": {
         "allow-plugins": {
