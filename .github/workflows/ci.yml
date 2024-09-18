@@ -49,5 +49,8 @@ jobs:
             - name: "Run PHPUnit unit tests"
               run: "vendor/bin/phpunit --colors --testsuite=unit --do-not-cache-result"
 
+            - name: "Install functional test environment"
+              run: "cd tests/TestEnvironment/ && composer install -n"
+
             - name: "Run PHPUnit functional tests"
-              run: "vendor/bin/phpunit --colors --testsuite=functional --do-not-cache-result"
+              run: "tests/TestEnvironment/vendor/bin/phpunit --colors --testsuite=functional --do-not-cache-result"

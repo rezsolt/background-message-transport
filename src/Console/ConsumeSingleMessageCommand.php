@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BackgroundMessageTransport\Console;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -23,6 +24,7 @@ final class ConsumeSingleMessageCommand extends Command
         #[\SensitiveParameter]
         private readonly string $appSecret,
         private readonly SerializerInterface $serializer,
+        private readonly LoggerInterface $logger,
     ) {
         parent::__construct();
     }
@@ -44,13 +46,17 @@ final class ConsumeSingleMessageCommand extends Command
         try {
             $encodedEnvelope = (string) $input->getArgument('envelope');
             $fingerprint = (string) $input->getArgument('fingerprint');
+            $this->logger->debug('Received message', ['encodedEnvelope' => $encodedEnvelope, 'fingerprint' => $fingerprint]);
+
             if (!$this->isEncodedEnvelopeValid($encodedEnvelope, $fingerprint)) {
                 throw new \InvalidArgumentException('Invalid envelope');
             }
 
             $envelope = $this->decodeEnvelope($encodedEnvelope);
-            $envelope = $this->messageBus->dispatch($envelope, [new TransportNamesStamp('background-sync')]);
+            // @todo: use the correct transport name
+            $envelope = $this->messageBus->dispatch($envelope, [new TransportNamesStamp('test-background-sync')]);
         } catch (\Throwable $exception) {
+            $this->logger->error('Error while consuming message', ['exception' => $exception]);
             if ($envelope === null) {
                 $envelope = Envelope::wrap(new \stdClass());
             }
@@ -83,6 +89,10 @@ final class ConsumeSingleMessageCommand extends Command
         string $fingerprint
     ): bool {
         $fingerprintForEnvelope = \hash_hmac('sha256', $encodedEnvelope, $this->appSecret);
+
+        if ($fingerprint === $fingerprintForEnvelope) {
+            $this->logger->debug('Fingerprint is valid', ['receivedFingerprint' => $fingerprint, 'correctFingerprint' => $fingerprintForEnvelope]);
+        }
 
         return $fingerprint === $fingerprintForEnvelope;
     }

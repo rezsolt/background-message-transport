@@ -8,6 +8,7 @@ use BackgroundMessageTransport\DeepCopy\DeepValueCopy;
 use BackgroundMessageTransport\Stamp\HandledCallbackStamp;
 use BackgroundMessageTransport\Stamp\ProcessStamp;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Event\WorkerMessageHandledEvent;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
@@ -25,6 +26,7 @@ final readonly class BackgroundAsyncTransport implements TransportInterface
         private EventDispatcherInterface $eventDispatcher,
         private DeepValueCopy $deepValueCopy,
         private SerializerInterface $serializer,
+        private LoggerInterface $logger,
     ) {}
 
     public function get(): iterable
@@ -56,6 +58,8 @@ final readonly class BackgroundAsyncTransport implements TransportInterface
             $fingerPrint,
         ]);
 
+        $this->logger->debug('Process', ['command' => $process->getCommandLine()]);
+
         $process->start(function (string $type, string $buffer) use ($process, $envelope, $handledCallbackStamp) {
             if (Process::ERR === $type) {
                 $process->stop();
@@ -75,7 +79,8 @@ final readonly class BackgroundAsyncTransport implements TransportInterface
             }
 
             $envelope = $this->copyChangesToEnvelope($workersEnvelope, $envelope);
-            $this->eventDispatcher->dispatch(new WorkerMessageHandledEvent($envelope, 'background-async'));
+            // @todo: use the correct transport name
+            $this->eventDispatcher->dispatch(new WorkerMessageHandledEvent($envelope, 'test-background-async'));
             $handledCallbackStamp?->callback->call($envelope, $envelope);
         });
 

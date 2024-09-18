@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace BackgroundMessageTransport\Tests\Functional\MessageHandler;
 
-use App\Tests\Functional\DoctrineSupport;
-use App\Tests\Functional\KernelTestCase;
 use BackgroundMessageTransport\Stamp\HandledCallbackStamp;
 use BackgroundMessageTransport\Stamp\ProcessStamp;
+use BackgroundMessageTransport\Tests\Functional\DoctrineSupport;
+use BackgroundMessageTransport\Tests\Functional\KernelTestCase;
 use BackgroundMessageTransport\Tests\TestEnvironment\Entity\Child;
 use BackgroundMessageTransport\Tests\TestEnvironment\Entity\Root;
 use BackgroundMessageTransport\Tests\TestEnvironment\Message\DoctrineEntityExampleMessage;

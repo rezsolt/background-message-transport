@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BackgroundMessageTransport\Tests\Functional\Console;
 
-use App\Tests\Functional\KernelTestCase;
+use BackgroundMessageTransport\Tests\Functional\KernelTestCase;
 use BackgroundMessageTransport\Tests\TestEnvironment\Message\ExampleMessage;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;

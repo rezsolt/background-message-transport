@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BackgroundMessageTransport\Tests\Functional;
 
 use Monolog\Handler\TestHandler;
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Monolog\Logger;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase as SymfonyKernelTestCase;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -21,7 +22,7 @@ class KernelTestCase extends SymfonyKernelTestCase
     public static function initialiseTestLogger(): void
     {
         self::$testLogger = new TestHandler();
-        self::getServiceByName('monolog.logger', Logger::class)
+        self::getServiceByName('monolog.logger', LoggerInterface::class)
             ->pushHandler(self::$testLogger);
     }
 
