@@ -1,0 +1,22 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $appSecret: '%env(APP_SECRET)%'
+
+    BackgroundMessageTransport\BackgroundAsyncTransportFactory:
+    BackgroundMessageTransport\BackgroundAsyncTransport:
+        arguments:
+            $serializer: '@background_message_transport.serializer'
+    BackgroundMessageTransport\Console\ConsumeSingleMessageCommand:
+        arguments:
+            $serializer: '@background_message_transport.serializer'
+    BackgroundMessageTransport\DeepCopy\DeepValueCopy:
+        arguments:
+            $propertyAccessor: '@property_accessor'
+
+    background_message_transport.serializer:
+        class: Symfony\Component\Messenger\Transport\Serialization\PhpSerializer

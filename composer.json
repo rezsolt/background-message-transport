@@ -1,0 +1,42 @@
+{
+    "name": "rezsolt/background-message-transport",
+    "description": "Symfony Messenger Background Message Transport",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.2",
+        "psr/event-dispatcher": "^1.0",
+        "symfony/messenger": "6.4.*",
+        "symfony/console": "^6.4",
+        "symfony/process": "6.4.*",
+        "symfony/property-access": "6.4.*",
+        "symfony/service-contracts": "^3.5",
+        "symfony/yaml": "6.4.*",
+        "doctrine/collections": "^2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "BackgroundMessageTransport\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BackgroundMessageTransport\\Tests\\Functional\\": "tests/Functional/",
+            "BackgroundMessageTransport\\Tests\\Unit\\": "tests/Unit/",
+            "BackgroundMessageTransport\\Tests\\TestEnvironment\\src\\": "tests/TestEnvironment/src/"
+        }
+    },
+    "scripts": {
+        "auto-scripts": {
+            "Install the test environment": "# cd tests/TestEnvironment && composer install && cd ../../"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    }
+}

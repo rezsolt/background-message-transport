@@ -18,13 +18,9 @@ jobs:
         strategy:
             matrix:
                 dependencies:
-                    - "lowest"
-                    - "highest"
                     - "locked"
                 php-version:
-                    - "8.1"
                     - "8.2"
-                    - "8.3"
                 operating-system:
                     - "ubuntu-latest"
 
@@ -39,16 +35,17 @@ jobs:
                   php-version: "${{ matrix.php-version }}"
                   ini-values: memory_limit=-1
 
+            - name: "Validate Composer dependencies"
+              run: "cd tests/TestEnvironment/ && composer validate"
+
             - name: "Install dependencies"
               uses: ramsey/composer-install@v2
               with:
                   dependency-versions: "${{ matrix.dependencies }}"
-
-            - name: "Validate Composer dependencies"
-              run: "composer validate"
+                  working-directory: "tests/TestEnvironment"
 
             - name: "Run PHPUnit unit tests"
-              run: "bin/phpunit --colors --testsuite=unit --do-not-cache-result"
+              run: "cd tests/TestEnvironment/ && vendor/bin/phpunit --colors --testsuite=unit --do-not-cache-result"
 
             - name: "Run PHPUnit functional tests"
-              run: "bin/phpunit --colors --testsuite=functional --do-not-cache-result"
+              run: "tests/TestEnvironment/vendor/bin/phpunit --colors --testsuite=functional --do-not-cache-result"
