@@ -45,7 +45,8 @@
     "autoload-dev": {
         "psr-4": {
             "BackgroundMessageTransport\\Tests\\TestEnvironment\\Tests\\": "tests/",
-            "BackgroundMessageTransport\\Tests\\Functional\\": "tests/Functional/"
+            "BackgroundMessageTransport\\Tests\\Functional\\": "tests/Functional/",
+            "BackgroundMessageTransport\\Tests\\Unit\\": "tests/Unit/"
         }},
     "replace": {
         "symfony/polyfill-ctype": "*",

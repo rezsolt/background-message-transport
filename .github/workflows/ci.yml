@@ -38,19 +38,17 @@ jobs:
                   php-version: "${{ matrix.php-version }}"
                   ini-values: memory_limit=-1
 
+            - name: "Validate Composer dependencies"
+              run: "cd tests/TestEnvironment/ && composer validate"
+
             - name: "Install dependencies"
               uses: ramsey/composer-install@v2
               with:
                   dependency-versions: "${{ matrix.dependencies }}"
-
-            - name: "Validate Composer dependencies"
-              run: "composer validate"
+                  working-directory: "tests/TestEnvironment"
 
             - name: "Run PHPUnit unit tests"
-              run: "vendor/bin/phpunit --colors --testsuite=unit --do-not-cache-result"
-
-            - name: "Install functional test environment"
-              run: "cd tests/TestEnvironment/ && composer install -n"
+              run: "cd tests/TestEnvironment/ && vendor/bin/phpunit --colors --testsuite=unit --do-not-cache-result"
 
             - name: "Run PHPUnit functional tests"
               run: "tests/TestEnvironment/vendor/bin/phpunit --colors --testsuite=functional --do-not-cache-result"
