@@ -8,7 +8,6 @@
 /tests/bootstrap.php
 /compose.override.yaml
 /compose.yaml
-/composer.lock
 /memory:
 /symfony.lock
 
